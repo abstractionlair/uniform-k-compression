@@ -1,0 +1,7 @@
+{
+  "name": "Template Analysis",
+  "description": "Template for creating new analyses",
+  "layer_prompt_template": "You are analyzing a collection of documents through a multi-layer random-batch process.\n\nLAYER {layer_num}:\nYou have been given {num_docs} randomly sampled documents from the previous layer.\nEach document in the corpus is read approximately {k} times per layer by different instances.\n\nYour task:\n- Compress this input to approximately {r:.0%} of its current size\n- Preserve key themes, patterns, contradictions, and illustrative examples\n- Note connections and tensions between documents\n- Maintain information that helps recognize cross-cutting patterns\n\nDocuments:\n\n{documents}\n\nProvide your compressed summary:",
+  "final_synthesis_prompt": "You have completed a multi-layer random-batch analysis of a large document collection.\n\nBelow are all summaries from the final layer. Provide a comprehensive synthesis of the key insights, patterns, themes, and findings across the entire corpus.",
+  "output_dir": "output/template_analysis"
+}

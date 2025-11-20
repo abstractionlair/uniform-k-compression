@@ -1,0 +1,7 @@
+{
+  "name": "Meeting Notes Analysis",
+  "description": "Example: Extract key decisions, action items, and recurring themes from meeting notes",
+  "layer_prompt_template": "You are analyzing a collection of meeting notes through a multi-layer random-batch process.\n\nLAYER {layer_num}:\nYou have been given {num_docs} randomly sampled meeting notes from the previous layer.\nEach meeting note in the corpus is read approximately {k} times per layer by different instances.\n\nYour task:\n- Compress this input to approximately {r:.0%} of its current size\n- Identify key decisions made and action items assigned\n- Note recurring themes, concerns, or topics\n- Track dependencies between initiatives\n- Preserve specific examples and dates when important\n\nMeeting notes:\n\n{documents}\n\nProvide your compressed summary:",
+  "final_synthesis_prompt": "You have completed a multi-layer analysis of meeting notes.\n\nBelow are summaries from the final layer. Provide a comprehensive synthesis that:\n\n1. **Key Decisions**: Major decisions made, when, and by whom\n2. **Action Items**: Critical action items and their status\n3. **Themes**: Recurring topics, concerns, or focus areas\n4. **Timeline**: How priorities have evolved over time\n5. **Dependencies**: Connections between different initiatives\n\nFinal layer summaries:\n\n{summaries}\n\nProvide your comprehensive synthesis:",
+  "output_dir": "output/meeting_notes_analysis"
+}

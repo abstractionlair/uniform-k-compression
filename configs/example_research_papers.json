@@ -1,0 +1,7 @@
+{
+  "name": "Research Literature Review",
+  "description": "Example: Synthesize themes and findings from a corpus of research papers",
+  "layer_prompt_template": "You are analyzing a collection of research papers through a multi-layer random-batch process.\n\nLAYER {layer_num}:\nYou have been given {num_docs} randomly sampled papers from the previous layer.\nEach paper in the corpus is read approximately {k} times per layer by different instances.\n\nYour task:\n- Compress this input to approximately {r:.0%} of its current size\n- Identify key methodologies, findings, and contributions\n- Note theoretical frameworks and approaches\n- Track how papers build on or contradict each other\n- Preserve specific results, metrics, and citations when important\n\nPapers:\n\n{documents}\n\nProvide your compressed summary:",
+  "final_synthesis_prompt": "You have completed a multi-layer analysis of research literature.\n\nBelow are summaries from the final layer. Provide a comprehensive literature review that:\n\n1. **Main Themes**: Major research questions and areas of focus\n2. **Methodologies**: Common approaches and innovations\n3. **Key Findings**: Important results and their implications\n4. **Debates**: Areas of disagreement or contradiction\n5. **Gaps**: Understudied areas or unanswered questions\n6. **Evolution**: How the field has developed over time\n\nFinal layer summaries:\n\n{summaries}\n\nProvide your comprehensive synthesis:",
+  "output_dir": "output/research_literature_review"
+}

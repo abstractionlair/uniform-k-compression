@@ -1,0 +1,82 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Jupyter
+.ipynb_checkpoints
+
+# Environment
+.env
+.venv
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific - large data files and outputs
+batch_results/
+*.jsonl
+*.log
+
+# Analysis outputs (user-specific data)
+analysis_output/
+output/
+test_output/
+
+# User-specific configs and scripts
+configs/*scott*.json
+configs/*personal*.json
+run_scott_analysis.py
+run_personal_*.py
+
+# Development/debugging scripts (hardcoded to personal configs)
+run_final_synthesis.py
+run_final_synthesis_batch.py
+run_final_synthesis_v4.py
+run_single_layer.py
+run_with_commentary.py
+test_layer1.py
+test_layer2.py
+
+# Implementation/development notes (user-specific)
+COMMENTARY_GUIDE.md
+IMPLEMENTATION_*.md
+IMPROVED_PROMPTS.md
+JSON_PREPARATION_*.md
+*_SUMMARY.md
+docs/internal/
+
+# Keep only template/example configs
+!configs/framework_default.json
+!configs/template.json
+!configs/analysis_template.json
+!configs/example_*.json

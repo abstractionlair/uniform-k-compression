@@ -1,0 +1,71 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "uniform-k-compression"
+version = "0.1.0"
+description = "Uniform-K compression for large document corpora using multi-layer random sampling with LLM compression"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Scott McGuire"}
+]
+keywords = ["llm", "compression", "summarization", "document-analysis", "anthropic", "claude", "batch-processing"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: General",
+]
+
+dependencies = [
+    "anthropic>=0.40.0",
+    "tiktoken>=0.7.0",
+    "numpy>=1.24.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/scottmcguire/uniform-k-compression"
+Repository = "https://github.com/scottmcguire/uniform-k-compression"
+Issues = "https://github.com/scottmcguire/uniform-k-compression/issues"
+
+[project.scripts]
+uniform-k-compress = "run_analysis:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["core*", "utilities*"]
+exclude = ["tests*", "docs*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short"
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+select = ["E", "F", "I"]
+ignore = ["E501"]  # Line too long (handled by black)

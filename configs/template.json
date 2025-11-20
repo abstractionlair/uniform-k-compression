@@ -1,0 +1,42 @@
+{
+  "name": "Analysis Name",
+  "description": "Description of what this analysis is for",
+
+  "corpus": {
+    "path": "/path/to/documents",
+    "pattern": "*.md",
+    "description": "Description of the document corpus"
+  },
+
+  "sampling": {
+    "k": 20,
+    "seed": 42,
+    "chunking": {
+      "enabled": true,
+      "max_tokens_per_doc": 200000,
+      "chars_per_token": 4.5,
+      "overlap_lines": 50
+    }
+  },
+
+  "layer1": {
+    "prompt": "Layer 1 analysis instructions...",
+    "model": "claude-sonnet-4-5-20250929",
+    "max_tokens": 150000,
+    "temperature": 1.0,
+    "use_caching": true
+  },
+
+  "layer2": {
+    "prompt": "Layer 2 synthesis instructions...",
+    "model": "claude-sonnet-4-5-20250929",
+    "max_tokens": 50000,
+    "temperature": 1.0
+  },
+
+  "output": {
+    "directory": "output/analysis_name",
+    "layer1_file": "layer1_meta_summary.md",
+    "layer2_file": "layer2_final_output.md"
+  }
+}

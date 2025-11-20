@@ -1,0 +1,12 @@
+{
+  "k": 1.5,
+  "r": 0.3,
+  "T1": 154000,
+  "T2": 769000,
+  "target_convergence": 700000,
+  "model": "claude-sonnet-4-5-20250929",
+  "target_spill_rate": 0.05,
+  "bootstrap_iterations": 10000,
+  "use_batch_api": false,
+  "batch_poll_interval": 300
+}

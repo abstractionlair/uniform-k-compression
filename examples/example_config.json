@@ -1,0 +1,7 @@
+{
+  "name": "Sherlock Holmes Stories Analysis",
+  "description": "Example analysis of 5 Sherlock Holmes stories",
+  "layer_prompt_template": "You are analyzing {num_docs} Sherlock Holmes stories at layer {layer_num}.\n\nYour task is to compress these to approximately {r:.0%} of the original size while preserving:\n1. Key plot points and mysteries\n2. Important character interactions\n3. Holmes' deductive methods\n4. Resolution of each case\n\nDocuments:\n{documents}\n\nProvide a concise summary:",
+  "final_synthesis_prompt": "You have received summaries of multiple Sherlock Holmes stories. Create a comprehensive analysis that:\n\n1. Identifies common themes across the stories\n2. Describes Holmes' typical investigative approach\n3. Notes any patterns in the types of cases\n4. Highlights the most interesting cases\n\nKeep your analysis focused and well-organized.",
+  "output_dir": "examples/output"
+}
