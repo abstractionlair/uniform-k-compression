@@ -6,18 +6,18 @@ Coordinates the multi-layer process with adaptive K selection.
 """
 
 import json
-from pathlib import Path
-from typing import List, Tuple, Callable, Optional
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from datetime import datetime
+from pathlib import Path
+from typing import Callable, List, Optional, Tuple
 
+from .batch_interface import BatchInterface
+from .commentary_manager import CommentaryManager
+from .config import AnalysisConfig, FrameworkConfig
 from .document import Document, Tokenizer
 from .k_calibrator import find_optimal_K
-from .layer_executor import run_layer, build_default_layer_prompt, LayerStats, _compression_to_words
-from .llm_interface import LLMInterface, APIUsage
-from .batch_interface import BatchInterface
-from .config import FrameworkConfig, AnalysisConfig
-from .commentary_manager import CommentaryManager
+from .layer_executor import LayerStats, _compression_to_words, run_layer
+from .llm_interface import LLMInterface
 
 
 @dataclass
@@ -105,10 +105,10 @@ class FractalSummarizer:
         print("="*70)
         print(f"FRACTAL SUMMARIZATION: {analysis_config.name}")
         print("="*70)
-        print(f"\nFramework config:")
+        print("\nFramework config:")
         print(f"  k={self.config.k}, r={self.config.r}, α≈{self.config.alpha:.2f}")
         print(f"  T1={self.config.T1:,}, T2={self.config.T2:,}")
-        print(f"\nInitial corpus:")
+        print("\nInitial corpus:")
         print(f"  {initial_doc_count} documents")
         print(f"  {initial_tokens:,} tokens (~{initial_tokens/1e6:.1f}M)")
 
@@ -382,7 +382,7 @@ Here are the {len(final_layer_docs)} final summaries from the last layer:
 
 if __name__ == "__main__":
     # Example usage (requires documents and API key)
-    from .config import FrameworkConfig, AnalysisConfig
+    from .config import AnalysisConfig, FrameworkConfig
     from .document import create_document_with_tokens
 
     # Create test documents

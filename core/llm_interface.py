@@ -7,9 +7,11 @@ token tracking.
 """
 
 import os
-import anthropic
-from typing import Tuple, Optional
 from dataclasses import dataclass
+from typing import Optional, Tuple
+
+import anthropic
+
 
 # Import after other imports to avoid circular dependency
 def resolve_model_name(model: str) -> str:

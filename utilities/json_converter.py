@@ -8,7 +8,7 @@ This extracts the actual conversation text for sampling.
 
 import json
 from pathlib import Path
-from typing import List, Tuple
+from typing import Tuple
 
 
 def convert_claude_json_to_text(json_path: Path) -> str:
@@ -122,7 +122,7 @@ def convert_corpus(
             print(f"  Error converting {json_path.name}: {e}")
             failed += 1
 
-    print(f"\nConversion complete:")
+    print("\nConversion complete:")
     print(f"  Converted: {converted}")
     print(f"  Failed: {failed}")
 

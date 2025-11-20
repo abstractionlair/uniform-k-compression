@@ -116,7 +116,7 @@ def clean_chatgpt_corpus(
             print(f"  Error cleaning {txt_path.name}: {e}")
             failed += 1
 
-    print(f"\nCleaning complete:")
+    print("\nCleaning complete:")
     print(f"  Processed: {processed}")
     print(f"  Modified (had tool calls): {modified}")
     print(f"  Failed: {failed}")

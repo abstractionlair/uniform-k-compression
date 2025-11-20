@@ -37,16 +37,11 @@ pytest tests/ --cov=core --cov=utilities
 
 ## Code Style
 
-This project uses:
-- **black** for code formatting (line length: 100)
-- **ruff** for linting
+This project uses **ruff** for linting (line length: 100).
 
 Before submitting a PR:
 
 ```bash
-# Format code
-black .
-
 # Check for issues
 ruff check .
 ```

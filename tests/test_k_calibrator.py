@@ -2,7 +2,6 @@
 Tests for K calibration (bootstrap sampling).
 """
 
-import pytest
 from core import find_optimal_K
 
 

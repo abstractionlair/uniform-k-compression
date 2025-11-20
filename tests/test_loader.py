@@ -2,8 +2,6 @@
 Tests for document loading functionality.
 """
 
-import pytest
-from pathlib import Path
 from utilities import load_documents
 
 

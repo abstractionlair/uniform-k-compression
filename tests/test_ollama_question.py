@@ -11,17 +11,17 @@ Hand-picked stories:
 - The Adventure of the Speckled Band (locked room mystery)
 """
 
-import pytest
 from pathlib import Path
+
+import pytest
+
 from core import (
-    FrameworkConfig,
     AnalysisConfig,
     FractalSummarizer,
+    FrameworkConfig,
     OllamaInterface,
     is_ollama_available,
 )
-from utilities import load_documents
-
 
 pytestmark = pytest.mark.skipif(
     not is_ollama_available(),
@@ -129,7 +129,7 @@ Be specific and cite examples where possible.""",
         output_dir=str(tmp_path / "holmes_methods")
     )
 
-    print(f"\n  Question: What are Holmes' deductive methods?")
+    print("\n  Question: What are Holmes' deductive methods?")
     print(f"  Framework: k={framework_config.k}, r={framework_config.r}")
     print(f"  Target: Multiple layers (converge at {framework_config.target_convergence:,} tokens)")
 
@@ -149,7 +149,7 @@ Be specific and cite examples where possible.""",
         print(f"  Instances: {metadata.total_instances}")
         print(f"  Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,}")
         print(f"  Duration: {metadata.duration_seconds/60:.1f} minutes")
-        print(f"  Cost: $0.00 (free!)")
+        print("  Cost: $0.00 (free!)")
 
         # Show the answer
         print("\n" + "="*70)

@@ -9,15 +9,15 @@ Usage:
     python examples/run_simple_example.py
 """
 
-import sys
 import os
+import sys
 from pathlib import Path
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from core import FrameworkConfig, AnalysisConfig, FractalSummarizer
+from core import AnalysisConfig, FractalSummarizer, FrameworkConfig
 from utilities import load_documents
 
 
@@ -83,7 +83,7 @@ Keep your analysis focused and well-organized.""",
         output_dir="examples/output",
     )
 
-    print(f"\n⚙️  Framework configuration:")
+    print("\n⚙️  Framework configuration:")
     print(f"   k={framework_config.k}, r={framework_config.r}")
     print(f"   α≈{framework_config.alpha:.2f} (effective layer compression)")
     print(f"   Context budgets: T1={framework_config.T1:,}, T2={framework_config.T2:,}")
@@ -93,7 +93,7 @@ Keep your analysis focused and well-organized.""",
     estimated_instances = int((framework_config.k * len(docs)) / 3)  # Rough estimate
     estimated_cost = (total_tokens / 1_000_000) * 3 * estimated_instances * 0.5
     print(f"\n💰 Estimated cost: ~${estimated_cost:.2f}")
-    print(f"   (This is a rough estimate - actual cost may vary)")
+    print("   (This is a rough estimate - actual cost may vary)")
 
     # Confirm
     response = input("\n▶️  Run analysis? (y/n): ")
@@ -113,20 +113,20 @@ Keep your analysis focused and well-organized.""",
         print("\n" + "=" * 70)
         print("✅ ANALYSIS COMPLETE")
         print("=" * 70)
-        print(f"\n📊 Statistics:")
+        print("\n📊 Statistics:")
         print(f"   Layers: {metadata.total_layers}")
         print(f"   Total instances: {metadata.total_instances}")
         print(f"   Duration: {metadata.duration_seconds:.1f}s ({metadata.duration_seconds / 60:.1f} min)")
         print(f"   Cost: ${metadata.total_cost_usd:.2f}")
         print(f"   Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,} tokens")
 
-        print(f"\n📝 Final analysis preview (first 500 chars):")
+        print("\n📝 Final analysis preview (first 500 chars):")
         print("-" * 70)
         print(result[:500] + "...")
         print("-" * 70)
 
         output_dir = Path(analysis_config.output_dir)
-        print(f"\n💾 Full output saved to:")
+        print("\n💾 Full output saved to:")
         print(f"   {output_dir / 'final_analysis.md'}")
         print(f"   {output_dir / 'run_metadata.json'}")
 

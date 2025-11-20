@@ -6,8 +6,9 @@ Implements methodology §4.2: empirical calibration to find the largest K
 where the spill rate (fraction of instances exceeding T1) is below target.
 """
 
-import numpy as np
 from typing import List, Tuple
+
+import numpy as np
 
 
 def find_optimal_K(
@@ -83,8 +84,8 @@ def find_optimal_K(
     # Fallback: even K=1 exceeds target spill rate
     # This can happen with very heterogeneous distributions
     if verbose:
-        print(f"  ⚠️  Warning: Even K=1 exceeds target spill rate")
-        print(f"     Returning K=1 anyway (required for progress)")
+        print("  ⚠️  Warning: Even K=1 exceeds target spill rate")
+        print("     Returning K=1 anyway (required for progress)")
 
     return 1
 

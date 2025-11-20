@@ -5,9 +5,9 @@ Commentary manager for iterative fractal analysis refinement.
 Allows incorporating feedback from previous runs to improve subsequent analyses.
 """
 
-from pathlib import Path
-from typing import Optional, Dict, Any
 import json
+from pathlib import Path
+from typing import Any, Dict, Optional
 
 
 class CommentaryManager:

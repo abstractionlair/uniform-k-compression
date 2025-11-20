@@ -20,12 +20,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from core import (
-    FrameworkConfig,
     AnalysisConfig,
     FractalSummarizer,
+    FrameworkConfig,
     OllamaInterface,
     is_ollama_available,
-    CommentaryManager,
 )
 from utilities import load_documents
 
@@ -115,7 +114,7 @@ Summaries to synthesize:""",
     print("\n" + "="*70)
     print("RUN 1 COMPLETE")
     print("="*70)
-    print(f"Output saved to: output/iterative_demo/run1/final_analysis.md")
+    print("Output saved to: output/iterative_demo/run1/final_analysis.md")
     print(f"Duration: {metadata1.duration_seconds/60:.1f} minutes")
     print()
     print("→ Review the output and create a commentary file with feedback.")
@@ -207,7 +206,7 @@ Summaries to synthesize:""",
     print("\n" + "="*70)
     print("RUN 2 COMPLETE")
     print("="*70)
-    print(f"Output saved to: output/iterative_demo/run2/final_analysis.md")
+    print("Output saved to: output/iterative_demo/run2/final_analysis.md")
     print(f"Duration: {metadata2.duration_seconds/60:.1f} minutes")
     print()
 
@@ -229,8 +228,8 @@ Summaries to synthesize:""",
     print(f"  Output length: {len(result2)} chars")
     print()
     print("→ Compare the outputs to see how commentary influenced the analysis.")
-    print(f"   Run 1: output/iterative_demo/run1/final_analysis.md")
-    print(f"   Run 2: output/iterative_demo/run2/final_analysis.md")
+    print("   Run 1: output/iterative_demo/run1/final_analysis.md")
+    print("   Run 2: output/iterative_demo/run2/final_analysis.md")
     print()
     print("Key takeaway: Run 2 should better address the emotional dynamics,")
     print("Victorian context, and character complexity mentioned in commentary.")

@@ -7,14 +7,12 @@ Batch processing takes hours but costs half as much.
 """
 
 import os
-import json
 import time
-from pathlib import Path
-from typing import List, Tuple, Optional
 from dataclasses import dataclass
+from typing import List, Optional, Tuple
+
 import anthropic
 
-from .llm_interface import APIUsage
 from .config import resolve_model_name
 
 

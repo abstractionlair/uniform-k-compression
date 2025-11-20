@@ -10,9 +10,9 @@ Prepare ChatGPT conversation JSON for fractal analysis.
 
 import json
 import sys
-from pathlib import Path
-from typing import Dict, Any, List, Optional
 from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 
 def strip_conversation_for_analysis(conversation: Dict[str, Any]) -> Dict[str, Any]:

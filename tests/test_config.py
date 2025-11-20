@@ -3,7 +3,8 @@ Tests for configuration classes.
 """
 
 import pytest
-from core import FrameworkConfig, AnalysisConfig, PreprocessingConfig
+
+from core import AnalysisConfig, FrameworkConfig, PreprocessingConfig
 
 
 def test_framework_config_defaults():

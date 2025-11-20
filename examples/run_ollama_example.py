@@ -21,9 +21,9 @@ project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
 from core import (
-    FrameworkConfig,
     AnalysisConfig,
     FractalSummarizer,
+    FrameworkConfig,
     OllamaInterface,
     is_ollama_available,
 )
@@ -105,11 +105,11 @@ Keep it concise (2-3 paragraphs).""",
         output_dir="examples/output_ollama",
     )
 
-    print(f"\n⚙️  Framework configuration:")
-    print(f"   Model: qwen2.5:3b (local)")
+    print("\n⚙️  Framework configuration:")
+    print("   Model: qwen2.5:3b (local)")
     print(f"   k={framework_config.k}, r={framework_config.r}")
     print(f"   Context: T1={framework_config.T1:,}, T2={framework_config.T2:,}")
-    print(f"\n💰 Cost: $0.00 (running locally!)")
+    print("\n💰 Cost: $0.00 (running locally!)")
 
     # Confirm
     response = input("\n▶️  Run analysis? (y/n): ")
@@ -129,21 +129,21 @@ Keep it concise (2-3 paragraphs).""",
         print("\n" + "=" * 70)
         print("✅ ANALYSIS COMPLETE")
         print("=" * 70)
-        print(f"\n📊 Statistics:")
-        print(f"   Model: qwen2.5:3b (Ollama)")
+        print("\n📊 Statistics:")
+        print("   Model: qwen2.5:3b (Ollama)")
         print(f"   Layers: {metadata.total_layers}")
         print(f"   Total instances: {metadata.total_instances}")
         print(f"   Duration: {metadata.duration_seconds:.1f}s ({metadata.duration_seconds / 60:.1f} min)")
-        print(f"   Cost: $0.00 (free!)")
+        print("   Cost: $0.00 (free!)")
         print(f"   Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,} tokens")
 
-        print(f"\n📝 Final analysis preview (first 500 chars):")
+        print("\n📝 Final analysis preview (first 500 chars):")
         print("-" * 70)
         print(result[:500] + "...")
         print("-" * 70)
 
         output_dir = Path(analysis_config.output_dir)
-        print(f"\n💾 Full output saved to:")
+        print("\n💾 Full output saved to:")
         print(f"   {output_dir / 'final_analysis.md'}")
         print(f"   {output_dir / 'run_metadata.json'}")
 

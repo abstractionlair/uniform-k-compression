@@ -6,18 +6,20 @@ Implements methodology §5: break large documents into readable chunks
 using LLM-based cooperative protocol.
 """
 
+import math
 import sys
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 from typing import List
-import math
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 sys.path.insert(0, str(Path(__file__).parent.parent / 'core'))
 
-from core.document import Document
-from core.llm_interface import LLMInterface
 from core.batch_interface import BatchInterface, BatchRequest
 from core.config import PreprocessingConfig
+from core.document import Document
+from core.llm_interface import LLMInterface
+
+from .document_loader import load_documents
 
 
 def needs_chunking(document: Document, threshold: int) -> bool:
@@ -152,7 +154,7 @@ def chunk_document(
 
     if use_batch_api:
         # Batch API mode (50% cost, takes hours)
-        print(f"    Submitting to batch API (50% cost savings)...")
+        print("    Submitting to batch API (50% cost savings)...")
 
         batch_requests = [
             BatchRequest(
@@ -255,7 +257,7 @@ def preprocess_documents(
         else:
             processed.append(doc)
 
-    print(f"\n✓ Preprocessing complete:")
+    print("\n✓ Preprocessing complete:")
     print(f"  Documents chunked: {chunk_count}")
     print(f"  Final document count: {len(processed)} (was {len(documents)})")
     print(f"  Total tokens: {sum(doc.token_count for doc in processed):,}")
@@ -285,4 +287,4 @@ if __name__ == "__main__":
         for doc in large_docs[:5]:
             print(f"  {doc.doc_id}: {doc.token_count:,} tokens")
     else:
-        print(f"\nNo documents exceed 50k tokens (no chunking needed)")
+        print("\nNo documents exceed 50k tokens (no chunking needed)")

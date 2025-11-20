@@ -2,15 +2,16 @@
 Pytest configuration and fixtures for fractal summarization tests.
 """
 
-import pytest
-from pathlib import Path
 import sys
+from pathlib import Path
+
+import pytest
 
 # Add project root to path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from core import Document, Tokenizer, create_document_with_tokens
+from core import Tokenizer
 
 
 @pytest.fixture

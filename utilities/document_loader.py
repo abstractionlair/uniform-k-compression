@@ -129,6 +129,6 @@ if __name__ == "__main__":
 
     docs = load_documents(directory, pattern, limit=limit)
 
-    print(f"\nFirst 3 documents:")
+    print("\nFirst 3 documents:")
     for doc in docs[:3]:
         print(f"  {doc.doc_id}: {doc.token_count} tokens")

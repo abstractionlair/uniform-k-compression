@@ -36,7 +36,6 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "black>=23.0.0",
     "ruff>=0.1.0",
 ]
 
@@ -60,12 +59,14 @@ python_classes = ["Test*"]
 python_functions = ["test_*"]
 addopts = "-v --tb=short"
 
-[tool.black]
-line-length = 100
-target-version = ["py39", "py310", "py311"]
-
 [tool.ruff]
 line-length = 100
 target-version = "py39"
+
+[tool.ruff.lint]
 select = ["E", "F", "I"]
-ignore = ["E501"]  # Line too long (handled by black)
+ignore = [
+    "E501",  # Line too long
+    "E402",  # Module level import not at top (needed for sys.path manipulation)
+    "F841",  # Local variable assigned but never used (availability checks in tests)
+]

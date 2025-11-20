@@ -7,7 +7,8 @@ token count, and metadata.
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 import tiktoken
 
 

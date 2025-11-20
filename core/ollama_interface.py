@@ -8,19 +8,13 @@ instead of the Anthropic API. Useful for testing and development without API cos
 
 import json
 import subprocess
-from typing import Tuple, Optional
 from dataclasses import dataclass
-
-try:
-    from .llm_interface import APIUsage
-except ImportError:
-    # When run as standalone script
-    from llm_interface import APIUsage
+from typing import Tuple
 
 
 @dataclass
 class OllamaUsage:
-    """Track Ollama usage (for consistency with APIUsage, but cost is always $0)."""
+    """Track Ollama usage (similar API to APIUsage from llm_interface, but cost is always $0)."""
     input_tokens: int = 0
     output_tokens: int = 0
 
@@ -252,7 +246,7 @@ if __name__ == "__main__":
             max_tokens=100
         )
 
-        print(f"✅ Test successful!")
+        print("✅ Test successful!")
         print(f"   Output: {output[:100]}")
         print(f"   Tokens: {tokens}")
         print(f"   Cost: ${usage.cost_usd:.2f}")

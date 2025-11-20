@@ -4,9 +4,7 @@ Tests for layer execution with mocked LLM.
 These tests verify the layer execution logic without making actual API calls.
 """
 
-import pytest
-from core import Document, create_document_with_tokens, Tokenizer
-from core.layer_executor import run_layer, LayerStats
+from core.layer_executor import run_layer
 
 
 class MockLLM:

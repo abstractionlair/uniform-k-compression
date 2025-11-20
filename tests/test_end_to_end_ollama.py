@@ -9,16 +9,17 @@ Requires:
 - Model pulled: ollama pull qwen2.5:3b
 """
 
-import pytest
 from pathlib import Path
+
+import pytest
+
 from core import (
-    FrameworkConfig,
     AnalysisConfig,
     FractalSummarizer,
+    FrameworkConfig,
     OllamaInterface,
     is_ollama_available,
 )
-
 
 # Skip all tests in this module if Ollama is not available
 pytestmark = pytest.mark.skipif(
@@ -141,7 +142,7 @@ def test_ollama_full_pipeline_tiny(small_corpus, ollama_framework_config, ollama
     assert (output_dir / "final_analysis.md").exists()
     assert (output_dir / "run_metadata.json").exists()
 
-    print(f"\n✅ Test passed!")
+    print("\n✅ Test passed!")
     print(f"   Layers: {metadata.total_layers}")
     print(f"   Instances: {metadata.total_instances}")
     print(f"   Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,}")
@@ -176,7 +177,7 @@ def test_ollama_vs_mock_comparison(small_corpus, ollama_framework_config):
     output_length = len(output)
     assert output_length < input_length, "Should compress the input"
 
-    print(f"\n📊 Ollama compression test:")
+    print("\n📊 Ollama compression test:")
     print(f"   Input: {input_length} chars")
     print(f"   Output: {output_length} chars")
     print(f"   Ratio: {output_length/input_length:.2%}")
@@ -247,7 +248,7 @@ Summary:""",
     summarizer1 = OllamaFractalSummarizer(framework_config, model=model)
     result1, metadata1 = summarizer1.run(docs, analysis_config_run1)
 
-    print(f"\n✅ Run 1 complete:")
+    print("\n✅ Run 1 complete:")
     print(f"   Layers: {metadata1.total_layers}")
     print(f"   Output length: {len(result1)} chars")
 
@@ -306,7 +307,7 @@ Summary:""",
     summarizer2 = OllamaFractalSummarizer(framework_config, model=model)
     result2, metadata2 = summarizer2.run(docs, analysis_config_run2)
 
-    print(f"\n✅ Run 2 complete:")
+    print("\n✅ Run 2 complete:")
     print(f"   Layers: {metadata2.total_layers}")
     print(f"   Output length: {len(result2)} chars")
 
@@ -337,7 +338,7 @@ Summary:""",
         'companion' in result2_lower
     )
 
-    print(f"\n📊 Comparison:")
+    print("\n📊 Comparison:")
     print(f"   Run 1 length: {len(result1)} chars")
     print(f"   Run 2 length: {len(result2)} chars")
     print(f"   Commentary themes in Run 2: {commentary_influenced}")
@@ -350,9 +351,9 @@ Summary:""",
         print("   ⚠️  Commentary influence not clearly detected (expected with small models)")
 
     # Save outputs for manual inspection
-    print(f"\n📁 Outputs saved:")
+    print("\n📁 Outputs saved:")
     print(f"   Run 1: {tmp_path / 'run1' / 'final_analysis.md'}")
     print(f"   Run 2: {tmp_path / 'run2' / 'final_analysis.md'}")
     print(f"   Commentary: {commentary_file}")
 
-    print(f"\n✅ Commentary integration test passed!")
+    print("\n✅ Commentary integration test passed!")

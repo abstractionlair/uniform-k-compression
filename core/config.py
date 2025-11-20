@@ -7,8 +7,8 @@ analysis configuration (prompts, output paths).
 """
 
 import json
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from dataclasses import dataclass, asdict
 from typing import Optional
 
 
@@ -225,5 +225,5 @@ if __name__ == "__main__":
     print(f"  Output: {analysis.output_dir}")
 
     prep = PreprocessingConfig()
-    print(f"\nPreprocessing:")
+    print("\nPreprocessing:")
     print(f"  Chunk threshold: {prep.chunking_threshold:,} tokens")

@@ -11,7 +11,7 @@ Prepare Claude conversation JSON files for fractal analysis.
 import json
 import sys
 from pathlib import Path
-from typing import Dict, Any, List
+from typing import Any, Dict, List
 
 
 def clean_message_content(content_blocks: List[Dict[str, Any]]) -> List[Dict[str, Any]]:

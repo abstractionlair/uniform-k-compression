@@ -9,11 +9,13 @@ Executes one layer of the fractal process:
 - Returns list of summaries (new documents for next layer)
 """
 
-import numpy as np
-from typing import List, Callable, Tuple
 from dataclasses import dataclass
-from .document import Document
+from typing import Callable, List, Tuple
+
+import numpy as np
+
 from .batch_interface import BatchInterface, BatchRequest
+from .document import Document
 
 
 @dataclass

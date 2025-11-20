@@ -7,11 +7,11 @@ This script serves as the main entry point for running the analysis.
 
 import argparse
 import sys
-import json
 from pathlib import Path
 
-from core import FrameworkConfig, AnalysisConfig, FractalSummarizer
+from core import AnalysisConfig, FractalSummarizer, FrameworkConfig
 from utilities import load_documents
+
 
 def main():
     parser = argparse.ArgumentParser(description="Run Fractal Summarization on a text corpus.")
@@ -66,7 +66,7 @@ def main():
         sys.exit(1)
 
     # Load configurations
-    print(f"Loading configs...")
+    print("Loading configs...")
     try:
         framework_config = FrameworkConfig.from_file(str(framework_config_path))
         analysis_config = AnalysisConfig.from_file(str(analysis_config_path))

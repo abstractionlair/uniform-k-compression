@@ -4,9 +4,11 @@ Tests for LLM interface behavior (without actual API calls).
 These tests verify the interface contract and error handling.
 """
 
-import pytest
 import os
-from core import LLMInterface, APIUsage
+
+import pytest
+
+from core import APIUsage, LLMInterface
 
 
 def test_llm_interface_requires_api_key():

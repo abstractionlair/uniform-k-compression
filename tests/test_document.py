@@ -3,6 +3,7 @@ Tests for Document and Tokenizer classes.
 """
 
 import pytest
+
 from core import Document, Tokenizer, create_document_with_tokens
 
 
