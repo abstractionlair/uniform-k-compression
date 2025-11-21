@@ -61,11 +61,17 @@ class FrameworkConfig:
     # Should be less than T2 to fit in final synthesis
     target_convergence: int = 700_000
 
+    # Provider selection ('anthropic', 'openai', 'google', 'xai')
+    provider: str = "anthropic"
+
     # Model to use for small contexts (200K)
     model: str = "sonnet"
 
     # Model to use for large contexts (1M)
     large_context_model: str = "sonnet[1m]"
+
+    # Temperature for sampling
+    temperature: float = 1.0
 
     # Target spill rate for K calibration
     target_spill_rate: float = 0.05
@@ -89,6 +95,18 @@ class FrameworkConfig:
             raise ValueError(f"target_convergence ({self.target_convergence}) should be < T2 ({self.T2})")
         if not 0.0 < self.target_spill_rate < 0.5:
             raise ValueError(f"target_spill_rate should be in (0, 0.5), got {self.target_spill_rate}")
+
+        # Validate provider
+        valid_providers = ['anthropic', 'openai', 'google', 'gemini', 'xai', 'grok']
+        if self.provider.lower() not in valid_providers:
+            raise ValueError(
+                f"Invalid provider: {self.provider}. "
+                f"Must be one of: {', '.join(valid_providers)}"
+            )
+
+        # Validate temperature
+        if not 0.0 <= self.temperature <= 2.0:
+            raise ValueError(f"temperature should be in [0.0, 2.0], got {self.temperature}")
 
     @property
     def alpha(self) -> float:

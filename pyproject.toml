@@ -38,6 +38,19 @@ dev = [
     "pytest>=7.0.0",
     "ruff>=0.1.0",
 ]
+openai = [
+    "openai>=1.0.0",
+]
+google = [
+    "google-generativeai>=0.3.0",
+]
+xai = [
+    "openai>=1.0.0",  # xAI uses OpenAI SDK
+]
+all-providers = [
+    "openai>=1.0.0",
+    "google-generativeai>=0.3.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/scottmcguire/uniform-k-compression"

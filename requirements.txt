@@ -1,7 +1,11 @@
-# Core dependencies
+# Core dependencies (Anthropic is required, others optional)
 anthropic>=0.40.0
 tiktoken>=0.7.0
 numpy>=1.24.0
+
+# Optional provider dependencies
+openai>=1.0.0  # For OpenAI and xAI providers
+google-generativeai>=0.3.0  # For Google Gemini provider
 
 # Development dependencies
 pytest>=7.0.0

@@ -11,13 +11,13 @@ from datetime import datetime
 from pathlib import Path
 from typing import Callable, List, Optional, Tuple
 
-from .batch_interface import BatchInterface
+from .base_provider import BaseProvider
 from .commentary_manager import CommentaryManager
 from .config import AnalysisConfig, FrameworkConfig
 from .document import Document, Tokenizer
 from .k_calibrator import find_optimal_K
 from .layer_executor import LayerStats, _compression_to_words, run_layer
-from .llm_interface import LLMInterface
+from .provider_factory import create_provider
 
 
 @dataclass
@@ -54,17 +54,22 @@ class FractalSummarizer:
         Initialize summarizer with framework configuration.
 
         Args:
-            config: FrameworkConfig with k, r, T1, T2, etc.
+            config: FrameworkConfig with k, r, T1, T2, provider, etc.
         """
         self.config = config
-        self.llm = LLMInterface(
+
+        # Create provider instance
+        self.provider = create_provider(
+            provider_name=config.provider,
             model=config.model,
-            large_context_model=config.large_context_model
+            large_context_model=config.large_context_model,
+            temperature=config.temperature
         )
-        self.batch = BatchInterface(
-            model=config.model,
-            large_context_model=config.large_context_model
-        ) if config.use_batch_api else None
+
+        # Legacy attributes for backwards compatibility
+        self.llm = self.provider
+        self.batch = self.provider if config.use_batch_api and self.provider.supports_batch() else None
+
         self.tokenizer = Tokenizer()
 
     def run(
@@ -210,7 +215,10 @@ class FractalSummarizer:
             initial_tokens=initial_tokens,
             final_documents=len(current_docs),
             final_tokens=sum(doc.token_count for doc in current_docs),
-            total_cost_usd=self.llm.get_total_usage().cost_usd,
+            total_cost_usd=self.provider.calculate_cost(
+                self.provider.get_total_usage(),
+                self.config.model
+            ),
             layer_stats=all_layer_stats
         )
 
@@ -339,7 +347,8 @@ Here are the {len(final_layer_docs)} final summaries from the last layer:
         output, _, usage = self.llm.call(prompt, "small", max_tokens=64_000)
 
         print(f"  Final synthesis: {usage.output_tokens:,} tokens")
-        print(f"  Cost: ${usage.cost_usd:.2f}")
+        cost = self.provider.calculate_cost(usage, self.config.model)
+        print(f"  Cost: ${cost:.2f}")
 
         return output
 

@@ -14,7 +14,7 @@ from typing import Callable, List, Tuple
 
 import numpy as np
 
-from .batch_interface import BatchInterface, BatchRequest
+from .base_provider import BaseProvider, BatchRequest
 from .document import Document
 
 
@@ -49,7 +49,7 @@ def run_layer(
     llm_caller: Callable[[str, str], Tuple[str, int]],
     prompt_builder: Callable[[List[Document], int, float, float], str],
     seed: int = None,
-    batch_interface: BatchInterface = None,
+    batch_interface: BaseProvider = None,
     use_batch_api: bool = False
 ) -> Tuple[List[Document], LayerStats]:
     """
@@ -66,7 +66,7 @@ def run_layer(
         llm_caller: Function(prompt, context_size) → (output_text, output_tokens)
         prompt_builder: Function(docs, layer, k, r) → prompt
         seed: Random seed for reproducibility
-        batch_interface: BatchInterface for batch API (if use_batch_api=True)
+        batch_interface: BaseProvider for batch API (if use_batch_api=True)
         use_batch_api: If True, use batch API (50% cost, takes hours)
 
     Returns:
@@ -74,6 +74,10 @@ def run_layer(
     """
     if use_batch_api and batch_interface is None:
         raise ValueError("batch_interface required when use_batch_api=True")
+    if use_batch_api and not batch_interface.supports_batch():
+        raise ValueError(
+            f"Provider {batch_interface.get_provider_name()} does not support batch API"
+        )
     if seed is not None:
         np.random.seed(seed)
 
