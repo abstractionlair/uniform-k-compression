@@ -15,7 +15,6 @@ from .providers import (
     XAIProvider,
 )
 
-
 # Provider registry - only include available providers
 PROVIDERS = {
     'anthropic': AnthropicProvider,

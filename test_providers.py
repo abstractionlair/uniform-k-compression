@@ -11,7 +11,7 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent))
 
-from core.provider_factory import create_provider, list_providers, get_provider_info
+from core.provider_factory import create_provider, get_provider_info, list_providers
 
 
 def test_provider_factory():

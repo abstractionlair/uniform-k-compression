@@ -6,7 +6,6 @@ Supports Gemini 3 Pro, 2.5 Pro/Flash with implicit/explicit caching and batch AP
 """
 
 import os
-import time
 from typing import List, Optional, Tuple
 
 try:
@@ -16,8 +15,7 @@ except ImportError:
         "Google Generative AI SDK not installed. Install with: pip install google-generativeai"
     )
 
-from ..base_provider import BaseProvider, UsageStats, BatchRequest
-
+from ..base_provider import BaseProvider, BatchRequest, UsageStats
 
 # Model name resolution
 MODEL_MAP = {

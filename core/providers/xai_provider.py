@@ -7,7 +7,7 @@ OpenAI SDK compatible.
 """
 
 import os
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 try:
     from openai import OpenAI
@@ -16,8 +16,7 @@ except ImportError:
         "OpenAI SDK not installed (needed for xAI). Install with: pip install openai"
     )
 
-from ..base_provider import BaseProvider, UsageStats, BatchRequest
-
+from ..base_provider import BaseProvider, UsageStats
 
 # Model name resolution
 MODEL_MAP = {

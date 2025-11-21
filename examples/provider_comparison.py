@@ -93,7 +93,7 @@ def example_openai():
 
     print(f"Provider: {config.provider}")
     print(f"Model: {config.model}")
-    print(f"Note: OpenAI models have large context by default")
+    print("Note: OpenAI models have large context by default")
     print()
 
     try:
@@ -131,7 +131,7 @@ def example_google():
     print(f"Provider: {config.provider}")
     print(f"Model: {config.model}")
     print(f"Large context model: {config.large_context_model}")
-    print(f"Note: Gemini has automatic implicit caching (90% discount)")
+    print("Note: Gemini has automatic implicit caching (90% discount)")
     print()
 
     try:
@@ -168,8 +168,8 @@ def example_xai():
 
     print(f"Provider: {config.provider}")
     print(f"Model: {config.model}")
-    print(f"Note: Grok has automatic caching (>90% hit rates)")
-    print(f"Note: Use 'grok-4' for deeper reasoning (slower)")
+    print("Note: Grok has automatic caching (>90% hit rates)")
+    print("Note: Use 'grok-4' for deeper reasoning (slower)")
     print()
 
     try:

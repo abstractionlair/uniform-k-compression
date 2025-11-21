@@ -11,8 +11,7 @@ from typing import List, Optional, Tuple
 
 import anthropic
 
-from ..base_provider import BaseProvider, UsageStats, BatchRequest
-
+from ..base_provider import BaseProvider, BatchRequest, UsageStats
 
 # Model name resolution
 MODEL_MAP = {

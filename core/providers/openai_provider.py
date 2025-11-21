@@ -16,8 +16,7 @@ except ImportError:
         "OpenAI SDK not installed. Install with: pip install openai"
     )
 
-from ..base_provider import BaseProvider, UsageStats, BatchRequest
-
+from ..base_provider import BaseProvider, BatchRequest, UsageStats
 
 # Model name resolution
 MODEL_MAP = {

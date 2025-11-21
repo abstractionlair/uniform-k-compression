@@ -11,7 +11,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Callable, List, Optional, Tuple
 
-from .base_provider import BaseProvider
 from .commentary_manager import CommentaryManager
 from .config import AnalysisConfig, FrameworkConfig
 from .document import Document, Tokenizer

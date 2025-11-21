@@ -25,7 +25,6 @@ Run specific provider tests with:
 """
 
 import os
-from pathlib import Path
 
 import pytest
 
@@ -42,7 +41,6 @@ from core import (
     FrameworkConfig,
     list_providers,
 )
-
 
 # ==============================================================================
 # Provider availability checks
@@ -189,7 +187,7 @@ def test_anthropic_haiku_e2e(small_corpus, base_framework_config, analysis_confi
     verify_results(result, metadata, "Anthropic Haiku")
 
     print("\n✅ Anthropic test passed!")
-    print(f"   Model: Haiku 4.5")
+    print("   Model: Haiku 4.5")
     print(f"   Layers: {metadata.total_layers}")
     print(f"   Instances: {metadata.total_instances}")
     print(f"   Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,}")
@@ -335,7 +333,7 @@ def test_openai_caching(small_corpus, base_framework_config, tmp_path):
     if usage.cache_read_tokens > 0:
         print(f"   ✅ Caching detected: {usage.cache_read_tokens:,} tokens")
     else:
-        print(f"   ℹ️  No cache hits detected (may not be exposed for this model)")
+        print("   ℹ️  No cache hits detected (may not be exposed for this model)")
 
     assert usage.input_tokens > 0, "Should have input tokens"
     assert usage.output_tokens > 0, "Should have output tokens"
@@ -368,7 +366,7 @@ def test_google_flash_lite_e2e(small_corpus, base_framework_config, analysis_con
     verify_results(result, metadata, "Google Gemini Flash-Lite")
 
     print("\n✅ Google test passed!")
-    print(f"   Model: Gemini 2.5 Flash-Lite")
+    print("   Model: Gemini 2.5 Flash-Lite")
     print(f"   Layers: {metadata.total_layers}")
     print(f"   Instances: {metadata.total_instances}")
     print(f"   Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,}")
@@ -412,7 +410,7 @@ def test_google_implicit_caching(small_corpus, base_framework_config, tmp_path):
     print(f"   Input tokens: {usage.input_tokens:,}")
     print(f"   Cached tokens: {usage.cache_read_tokens:,}")
     print(f"   Output tokens: {usage.output_tokens:,}")
-    print(f"   ℹ️  Note: Gemini has implicit caching (90% auto-discount)")
+    print("   ℹ️  Note: Gemini has implicit caching (90% auto-discount)")
 
     assert usage.input_tokens > 0, "Should have input tokens"
     assert usage.output_tokens > 0, "Should have output tokens"
@@ -444,7 +442,7 @@ def test_xai_grok41_fast_e2e(small_corpus, base_framework_config, analysis_confi
     verify_results(result, metadata, "xAI Grok 4.1 Fast Non-Reasoning")
 
     print("\n✅ xAI test passed!")
-    print(f"   Model: Grok 4.1 Fast Non-Reasoning")
+    print("   Model: Grok 4.1 Fast Non-Reasoning")
     print(f"   Layers: {metadata.total_layers}")
     print(f"   Instances: {metadata.total_instances}")
     print(f"   Compression: {metadata.initial_tokens:,} → {metadata.final_tokens:,}")
@@ -487,7 +485,7 @@ def test_xai_caching(small_corpus, base_framework_config, tmp_path):
     print(f"   Input tokens: {usage.input_tokens:,}")
     print(f"   Cache reads: {usage.cache_read_tokens:,}")
     print(f"   Output tokens: {usage.output_tokens:,}")
-    print(f"   ℹ️  xAI typically achieves >90% cache hit rates")
+    print("   ℹ️  xAI typically achieves >90% cache hit rates")
 
     if usage.cache_read_tokens > 0:
         cache_rate = usage.cache_read_tokens / usage.input_tokens if usage.input_tokens > 0 else 0
