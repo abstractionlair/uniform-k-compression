@@ -33,6 +33,7 @@ class RunMetadata:
     final_documents: int
     final_tokens: int
     total_cost_usd: float
+    use_batch_api: bool  # Whether layer calls actually went through the batch API
     layer_stats: List[dict]  # LayerStats converted to dicts
 
     def save(self, path: Path):
@@ -65,9 +66,20 @@ class FractalSummarizer:
             temperature=config.temperature
         )
 
+        # Batch mode must reflect what can actually run: fail loudly at
+        # construction time instead of silently recording a batch config
+        # that the provider cannot honor.
+        if config.use_batch_api and not self.provider.supports_batch():
+            raise ValueError(
+                f"use_batch_api=True, but provider "
+                f"'{self.provider.get_provider_name()}' does not support the "
+                f"batch API. Set use_batch_api=False or choose a provider "
+                f"whose batch path is implemented."
+            )
+
         # Legacy attributes for backwards compatibility
         self.llm = self.provider
-        self.batch = self.provider if config.use_batch_api and self.provider.supports_batch() else None
+        self.batch = self.provider if config.use_batch_api else None
 
         self.tokenizer = Tokenizer()
 
@@ -218,6 +230,9 @@ class FractalSummarizer:
                 self.provider.get_total_usage(),
                 self.config.model
             ),
+            # Record the mode that actually ran (self.batch is only set when
+            # the provider genuinely supports batch), not just the config flag.
+            use_batch_api=self.batch is not None,
             layer_stats=all_layer_stats
         )
 
@@ -341,9 +356,26 @@ Here are the {len(final_layer_docs)} final summaries from the last layer:
         if commentary:
             prompt = commentary.augment_prompt(prompt, "final")
 
-        # Call with small context for final synthesis (usually small enough)
-        # If final docs exceed T1, this could be changed to "large"
-        output, _, usage = self.llm.call(prompt, "small", max_tokens=64_000)
+        # Choose the model tier from the actual size of the final prompt.
+        # The convergence gate (target_convergence, default 700K) can legally
+        # exceed the small-context budget T1 (default 154K), so always calling
+        # the small tier could blow its context window.
+        prompt_tokens = self.tokenizer.count_tokens(prompt)
+        if prompt_tokens <= self.config.T1:
+            context_size = "small"
+        elif prompt_tokens <= self.config.T2:
+            context_size = "large"
+            print(f"  Final prompt: {prompt_tokens:,} tokens > T1={self.config.T1:,}; using large context")
+        else:
+            raise ValueError(
+                f"Final synthesis prompt is {prompt_tokens:,} tokens, which "
+                f"exceeds the large-context budget T2={self.config.T2:,}. "
+                f"Lower target_convergence (currently "
+                f"{self.config.target_convergence:,}) or raise T2 so the "
+                f"final synthesis fits in a single call."
+            )
+
+        output, _, usage = self.llm.call(prompt, context_size, max_tokens=64_000)
 
         print(f"  Final synthesis: {usage.output_tokens:,} tokens")
         cost = self.provider.calculate_cost(usage, self.config.model)
