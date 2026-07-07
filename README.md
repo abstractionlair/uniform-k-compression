@@ -18,7 +18,7 @@ Documents (N) → Layer 1 (n₁ summaries) → Layer 2 (n₂ summaries) → ... 
 At each layer:
 1. Sample K documents uniformly at random (without replacement)
 2. Send them to an LLM instance for compression
-3. Repeat n times (where n = k·N/K) to ensure each document is read k times on average
+3. Repeat n times (where n = k·N/K, rounded to the nearest integer) so each document is read k times on average; on small layers the rounding means realized average reads can deviate slightly from k
 4. Use the summaries as input to the next layer
 
 **Why this works**: Uniform sampling ensures per-token fairness. Multiple instances per layer ensure cross-document connections emerge (documents A and B will appear together in some instances, A and C in others, etc.). Compression ratio r < 1 means logarithmic convergence: after log₁/ᵣ(N) layers, you're down to a manageable final size.
@@ -27,7 +27,7 @@ At each layer:
 - k = sampling density (each doc read k times per layer)
 - r = compression ratio (each instance outputs r × input size)
 - K = documents per instance (calibrated to fit in context window)
-- n = k·N/K instances per layer
+- n = round(k·N/K) instances per layer
 - α = k·r = effective layer compression (typically ~0.45)
 
 Number of layers: log₁/α(N/Target) ≈ 3-5 for typical corpora.
@@ -304,7 +304,21 @@ For k=1.5, r=0.3 (default parameters):
 | Anthropic Batch | $30-60 | 2-4 days | 50% discount |
 | Ollama (local) | $0 | 2-4 hours | Good for testing |
 
-Scaling: Cost scales linearly with k, logarithmically with corpus size.
+> **⚠️ Unverified figures.** The instance counts, token totals, costs, and
+> times above come from the original development run. No run artifacts
+> (`run_metadata.json`) or full run configuration are committed, so these
+> figures are **not currently reproducible from this repository**. Known
+> discrepancy: an independent recompute using the committed K-calibrator on a
+> comparable 5,000-document / 20M-token corpus produced K=38 with 197 layer-1
+> instances, not the 750 shown above, and the per-layer output totals above
+> (~15.6M output tokens) priced at this repo's own Sonnet rates ($3/$15 per
+> MTok) exceed the stated real-time cost range. Treat this table as a rough,
+> unverified estimate and regenerate it from an instrumented run (which writes
+> `run_metadata.json`) before budgeting against it.
+
+Scaling: Cost scales roughly linearly with k and linearly with corpus size
+(total work ≈ k·N/(1−α) tokens); it is the number of *layers* that grows
+logarithmically with corpus size.
 
 ## Implementation Details
 
@@ -313,8 +327,8 @@ Scaling: Cost scales linearly with k, logarithmically with corpus size.
 **CORRECT** (this implementation):
 - Sample K **whole documents** uniformly
 - Read entire documents, not fragments
-- Create n = k·N/K instances
-- Each document appears in k/K ≈ 1.5 instances per layer
+- Create n = round(k·N/K) instances
+- Each document appears in n·K/N = k ≈ 1.5 instances per layer on average
 
 **INCORRECT** interpretation:
 - Sample k lines from each document

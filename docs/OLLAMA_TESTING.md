@@ -131,6 +131,12 @@ result, metadata = summarizer.run(documents, analysis_config)
 | Claude Sonnet | $60-120 | 6-8 hours | Real-time API |
 | Claude Batch | $30-60 | 2-4 days | 50% discount |
 
+> **⚠️ Unverified figures.** These numbers come from the original development
+> run and are not currently reproducible from the committed configuration (no
+> run artifacts are committed, and an independent recompute of the same
+> scenario produced materially different instance counts). See the note under
+> "Cost and Performance" in the main README. Treat them as rough estimates.
+
 ## Configuration Tips for Ollama
 
 ### Adjust Context Windows
