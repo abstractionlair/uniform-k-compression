@@ -189,8 +189,16 @@ class OpenAIProvider(BaseProvider):
         return output_text, usage.output_tokens, usage
 
     def supports_batch(self) -> bool:
-        """OpenAI supports batch API."""
-        return True
+        """
+        Batch API is NOT operational for this provider.
+
+        OpenAI's Batch API exists, but this provider's submit_batch() and
+        get_batch_results() are placeholders that raise NotImplementedError
+        (a file-based JSONL flow is required). The capability flag must
+        reflect what actually runs, so this returns False until the batch
+        path is implemented end-to-end.
+        """
+        return False
 
     def supports_caching(self) -> bool:
         """OpenAI supports automatic prompt caching."""

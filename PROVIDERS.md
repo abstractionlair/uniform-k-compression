@@ -13,16 +13,15 @@ The Uniform-K Compression framework now supports multiple LLM providers with aut
 
 ### ✅ OpenAI GPT
 - **Models:** GPT-5.1, GPT-5.1 Instant, GPT-4o, o1 family
-- **Batch API:** ✅ Yes (50% discount on input AND output)
+- **Batch API:** ❌ Not implemented in this framework (`supports_batch()` returns `False`; OpenAI's Batch API offers a 50% discount, but this provider's batch methods are placeholders — a file-based JSONL flow is still needed)
 - **Caching:** ✅ Yes (automatic on prompts >1,024 tokens, 50% discount)
 - **API Key:** `OPENAI_API_KEY`
 - **Install:** `pip install openai`
 
 ### ✅ Google Gemini
 - **Models:** Gemini 3 Pro, 2.5 Pro, 2.5 Flash, 2.5 Flash-Lite
-- **Batch API:** ✅ Yes (50% discount, up to 200K requests/batch)
+- **Batch API:** ❌ Not implemented in this framework (`supports_batch()` returns `False`; Google offers batch prediction via Vertex AI, but this provider's batch methods are placeholders)
 - **Caching:** ✅ Yes (implicit: automatic 90% discount on 2.5 models)
-- **Note:** Batch doesn't support explicit caching (only implicit)
 - **API Key:** `GOOGLE_API_KEY`
 - **Install:** `pip install google-generativeai`
 
@@ -149,7 +148,7 @@ Batch API provides 50% cost savings but takes hours instead of minutes.
 
 ```python
 config = FrameworkConfig(
-    provider='anthropic',  # or 'openai', 'google'
+    provider='anthropic',  # currently the only provider with a working batch path
     model='sonnet',
     use_batch_api=True,
     batch_poll_interval=300  # Check every 5 minutes
@@ -158,9 +157,12 @@ config = FrameworkConfig(
 
 **Provider Support:**
 - ✅ Anthropic: Full support, can stack with caching
-- ✅ OpenAI: Supported (file-based, not fully implemented)
-- ✅ Google: Supported (Vertex AI required, not fully implemented)
+- ❌ OpenAI: Not implemented (`supports_batch()` returns `False`; file-based flow required)
+- ❌ Google: Not implemented (`supports_batch()` returns `False`; Vertex AI batch prediction required)
 - ❌ xAI: Not documented
+
+Setting `use_batch_api=True` with a provider whose batch path is not
+implemented raises a `ValueError` at `FractalSummarizer` construction time.
 
 ## Caching
 
@@ -240,7 +242,8 @@ See `examples/provider_comparison.py` for a complete demonstration of configurin
    - Production: Sonnet (Anthropic), GPT-5.1 (OpenAI), Gemini 2.5 Flash (Google)
    - Complex tasks: Opus (Anthropic), GPT-5.1 Thinking (OpenAI), Gemini 3 Pro (Google)
 
-**Discount Stacking:**
+**Discount Stacking** (API-level capabilities; via this framework only the
+Anthropic batch path currently works):
 - Anthropic: Batch (50%) + Caching (90%) = up to 95% total savings
 - OpenAI: Batch (50%) + Caching (50%) = up to 75% total savings
 - Google: Batch (50%) + Implicit Caching (90%) = up to 95% total savings

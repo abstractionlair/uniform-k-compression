@@ -163,8 +163,15 @@ class GoogleProvider(BaseProvider):
         return output_text, usage.output_tokens, usage
 
     def supports_batch(self) -> bool:
-        """Google supports batch API."""
-        return True
+        """
+        Batch API is NOT operational for this provider.
+
+        Google offers batch prediction (via Vertex AI), but this provider's
+        batch methods are placeholders that raise NotImplementedError. The
+        capability flag must reflect what actually runs, so this returns
+        False until the batch path is implemented end-to-end.
+        """
+        return False
 
     def supports_caching(self) -> bool:
         """Google supports implicit and explicit caching."""
