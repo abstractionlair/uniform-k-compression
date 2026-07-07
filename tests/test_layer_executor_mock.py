@@ -50,8 +50,8 @@ def test_run_layer_basic(small_corpus):
         seed=42,
     )
 
-    # Should create n = k*N/K instances
-    expected_instances = int(1.5 * len(small_corpus) / 3)
+    # Should create n = round(k*N/K) instances (rounded half-up, not floored)
+    expected_instances = int(1.5 * len(small_corpus) / 3 + 0.5)
     assert len(output_docs) == expected_instances
     assert stats.n_instances == expected_instances
     assert stats.layer_num == 1
@@ -164,6 +164,45 @@ def test_run_layer_sampling_density(small_corpus):
         seed=42,
     )
 
-    # n = k * N / K
-    expected_n = int(1.5 * len(small_corpus) / 2)
+    # n = round(k * N / K), rounded half-up
+    expected_n = int(1.5 * len(small_corpus) / 2 + 0.5)
     assert stats.n_instances == expected_n
+
+
+def test_run_layer_instance_count_rounds_to_nearest(small_corpus):
+    """n_instances must round k*N/K to the nearest integer, not floor it.
+
+    Flooring systematically under-sampled small layers relative to the
+    documented "each document is read k times on average" invariant:
+    with N=5, K=3, k=1.5, floor gave 2 instances (1.2 expected reads);
+    rounding gives 3 instances (1.8 expected reads, the closest integer
+    realization of the requested k=1.5).
+    """
+    mock_llm = MockLLM(compression_ratio=0.3)
+
+    def mock_prompt_builder(docs, layer_num, k, r):
+        return "\n\n".join([d.content for d in docs])
+
+    N = len(small_corpus)
+    assert N == 5  # Fixture assumption for the arithmetic below
+
+    k, K = 1.5, 3
+    _, stats = run_layer(
+        documents=small_corpus,
+        k=k,
+        K=K,
+        r=0.3,
+        T1=50_000,
+        T2=200_000,
+        layer_num=1,
+        llm_caller=mock_llm,
+        prompt_builder=mock_prompt_builder,
+        seed=42,
+    )
+
+    assert stats.n_instances == 3  # round(2.5) half-up, not floor -> 2
+
+    # Rounded n is the integer that best tracks the requested k
+    realized_reads = stats.n_instances * K / N
+    floored_reads = int(k * N / K) * K / N
+    assert abs(realized_reads - k) <= abs(floored_reads - k)

@@ -3,7 +3,7 @@
 Layer execution for uniform-K random-batch summarization.
 
 Executes one layer of the fractal process:
-- Creates n = k·N/K instances
+- Creates n = round(k·N/K) instances
 - Each instance samples K documents uniformly
 - Calls LLM to compress
 - Returns list of summaries (new documents for next layer)
@@ -82,10 +82,14 @@ def run_layer(
         np.random.seed(seed)
 
     N = len(documents)
-    n_instances = int(k * N / K)
+    # Round k·N/K to the nearest integer (half-up) so realized expected reads
+    # (n·K/N) track the requested k as closely as possible. Plain int()
+    # flooring systematically under-sampled small layers: e.g. k=1.5, N=5,
+    # K=3 floored to 2 instances = 1.2 expected reads instead of 1.5.
+    n_instances = int(k * N / K + 0.5)
 
     if n_instances == 0:
-        raise ValueError(f"n_instances = k·N/K = {k}·{N}/{K} = 0. Increase k or decrease K.")
+        raise ValueError(f"n_instances = round(k·N/K) = round({k}·{N}/{K}) = 0. Increase k or decrease K.")
 
     print(f"\nLayer {layer_num}: {N} documents, K={K}, {n_instances} instances")
 
