@@ -373,6 +373,10 @@ Use batch for production runs where you can wait. Use real-time for development/
 - When you know exactly which documents matter: Use targeted sampling instead.
 - When you need guaranteed lossless preservation: This is lossy compression.
 
+## Provenance
+
+The idea — oversample with uniform inclusion probability per token, so that systematic coverage of a large corpus is a sampling guarantee rather than a hope — is mine, as is the sampling strategy built around it. The probability grind-out, the convergence analysis, and the parameter-choice math and simulations were a model's work (claude.ai, October 2025), with me critiquing the derivations as they came — at times Socratically, steering toward results I had intuited but not proven. The implementation was likewise delegated; my quality control ran through the run outputs rather than the diffs. The test suite runs without API keys, which is a large part of what makes that trade acceptable.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, code style, and testing guidelines.
