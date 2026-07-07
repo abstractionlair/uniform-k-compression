@@ -263,8 +263,19 @@ class AnthropicProvider(BaseProvider):
                     if content.type == 'text':
                         output_text += content.text
 
-                output_tokens = message.usage.output_tokens
-                outputs.append((custom_id, output_text, output_tokens))
+                # Fold batch usage into cumulative tracking. Direct call()
+                # already does this; without it here, batch runs underreport
+                # total usage/cost in run_metadata.json.
+                usage_obj = message.usage
+                usage = UsageStats(
+                    input_tokens=getattr(usage_obj, 'input_tokens', 0) or 0,
+                    output_tokens=usage_obj.output_tokens,
+                    cache_creation_tokens=getattr(usage_obj, 'cache_creation_input_tokens', 0) or 0,
+                    cache_read_tokens=getattr(usage_obj, 'cache_read_input_tokens', 0) or 0
+                )
+                self.total_usage = self.total_usage + usage
+
+                outputs.append((custom_id, output_text, usage.output_tokens))
 
             elif result.result.type == 'errored':
                 error = result.result.error
