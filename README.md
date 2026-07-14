@@ -298,24 +298,6 @@ For k=1.5, r=0.3 (default parameters):
 
 **Total**: ~925 instances
 
-| Method | Cost | Time | Notes |
-|--------|------|------|-------|
-| Anthropic Real-time | $60-120 | 6-8 hours | Full quality |
-| Anthropic Batch | $30-60 | 2-4 days | 50% discount |
-| Ollama (local) | $0 | 2-4 hours | Good for testing |
-
-> **⚠️ Unverified figures.** The instance counts, token totals, costs, and
-> times above come from the original development run. No run artifacts
-> (`run_metadata.json`) or full run configuration are committed, so these
-> figures are **not currently reproducible from this repository**. Known
-> discrepancy: an independent recompute using the committed K-calibrator on a
-> comparable 5,000-document / 20M-token corpus produced K=38 with 197 layer-1
-> instances, not the 750 shown above, and the per-layer output totals above
-> (~15.6M output tokens) priced at this repo's own Sonnet rates ($3/$15 per
-> MTok) exceed the stated real-time cost range. Treat this table as a rough,
-> unverified estimate and regenerate it from an instrumented run (which writes
-> `run_metadata.json`) before budgeting against it.
-
 Scaling: Cost scales roughly linearly with k and linearly with corpus size
 (total work ≈ k·N/(1−α) tokens); it is the number of *layers* that grows
 logarithmically with corpus size.
